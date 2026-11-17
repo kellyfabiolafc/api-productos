@@ -53,9 +53,22 @@ Las mismas operaciones se pueden realizar con productos y proveedores.
 
 ## Instalación
 
+### Requisitos previos
+
+Antes de instalar y ejecutar el proyecto, asegúrate de contar con lo siguiente:
+
+- Acceso a Internet para descargar las dependencias.
+- Node.js versión 20 o superior instalado.
+- Visual Studio Code.
+- MySQL instalado y en funcionamiento.
+
+### Pasos de instalación
+
 1. Clonar o descargar el repositorio.
+
 2. Abrir el proyecto en Visual Studio Code.
-3. Instalar las dependencias:
+
+3. Instalar las dependencias del proyecto ejecutando el siguiente comando en la terminal:
 
 ```bash
 npm install

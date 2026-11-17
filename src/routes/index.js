@@ -1,19 +1,22 @@
-//Nuestra aplicación puede tener muchos módulos
-//Productos > producto.controller > producto.routes
-//Clientes > cliente.controller > cliente.routes
-//Proveedores > proveedor.controller > proveedor.routes
+// Nuestra aplicación puede tener muchos módulos
+// Productos > producto.controller > producto.routes
+// Clientes > cliente.controller > cliente.routes
+// Proveedores > proveedor.controller > proveedor.routes
 
-//Todas las rutas se organizan gracias a index (índice)
-const { Router } = require('express')
+const { Router } = require("express");
 
-//Esto se realiza por cada rutas **
-const productoRoutes = require('./producto.routes')
+// Importamos las rutas de cada módulo
+const productoRoutes = require("./producto.routes");
+const clienteRoutes = require("./cliente.routes");
+const proveedorRoutes = require("./proveedor.routes");
 
-//Esto es solo una para todas las rutas
-const router = Router()
+// Creamos el router principal
+const router = Router();
 
-//Esto es por cada ruta **
-router.use('/productos', productoRoutes)
+// Registramos las rutas de cada módulo
+router.use("/productos", productoRoutes);
+router.use("/clientes", clienteRoutes);
+router.use("/proveedores", proveedorRoutes);
 
-//Se exportan todas las rutas
-module.exports = router
+// Exportamos todas las rutas
+module.exports = router;

@@ -1,12 +1,13 @@
-const { Router } = require('express') // Manejador de rutas
-const controller = require('../controllers/producto.controller') // Controlador (Lógica)
 
-const router = Router() // Crear router (O considerar las rutas)
+const { Router } = require('express')
+const controller = require('../controllers/producto.controller')
+
+const router = Router()
 
 router.get('/', controller.listarProductos);
 router.get('/:id', controller.obtenerProducto);
 router.post('/', controller.crearProducto);
 router.put('/:id', controller.actualizarProducto);
-// Pendiente: PUT, POST, DELETE
+router.delete('/:id', controller.eliminarProducto);
 
 module.exports = router

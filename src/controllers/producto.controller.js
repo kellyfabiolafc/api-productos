@@ -15,8 +15,8 @@ const CAMPOS = "id, marca, descripcion, precio, stock"; // Dato común
 const validarCampos = ({ marca, descripcion, precio, stock } = {}) => {
   const errores = [];
 
-  if (marca.trim() === "") errores.push("La marca es obligatoria");
-  if (descripcion.trim() === "") errores.push("La descripción es necesaria");
+  if (typeof marca !== "string" || marca.trim() === "") errores.push("La marca es obligatoria");
+  if (typeof descripcion !== "string" || descripcion.trim() === "") errores.push("La descripción es necesaria");
   if (precio === undefined || isNaN(Number(precio)) || precio <= 0)
     errores.push("Verifique el precio");
   if (
@@ -34,7 +34,7 @@ const validarCampos = ({ marca, descripcion, precio, stock } = {}) => {
 const listarProductos = async (req, res) => {
   //Se utiliza try - catch porque existe una probabilidad de error
   try {
-    const { productos } = await pool.query(
+    const [productos] = await pool.query(
       "SELECT * FROM productos ORDER BY id",
     );
     res.status(200).json({
@@ -58,7 +58,7 @@ const obtenerProducto = async (req, res) => {
   try {
     //req.para,s representa los parametros enviados por la URL
     const id = Number(req.params.id);
-    if (id <= 0) {
+    if (!Number.isSafeInteger(id) || id <= 0) {
       return res.status(400).json({
         ok: false,
         message: "El ID no puede ser negativo o cero",
@@ -132,7 +132,7 @@ const actualizarProducto = async (req, res) => {
     // Obtener el ID del producto a actualizar (obtenerProducto)
     const id = Number(req.params.id);
 
-    if (id < 0) {
+    if (!Number.isSafeInteger(id) || id <= 0) {
       return res.status(400).json({
         ok: false,
         message: "El ID no puede ser negativo",
@@ -154,7 +154,7 @@ const actualizarProducto = async (req, res) => {
       "SELECT id FROM productos WHERE id = ?",
       [id],
     );
-    if (existe === 0) {
+    if (existe.length === 0) {
       return res.status(404).json({
         ok: false,
         message: "El ID no existe",
@@ -186,16 +186,44 @@ const actualizarProducto = async (req, res) => {
   }
 };
 
+
 const eliminarProducto = async (req, res) => {
   try {
+    const id = Number(req.params.id);
+
+    // Agregar validación ID no puede ser negativo
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({
+        ok: false,
+        message: 'El ID no puede ser negativo o cero'
+      });
+    }
+
+    const [resultado] = await pool.execute(
+      'DELETE FROM productos WHERE id = ?', [id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({
+        ok: false,
+        message: 'EL ID no existe'
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      message: 'Producto eliminado'
+    });
+
   } catch (e) {
     console.error(e);
     res.status(500).json({
       ok: false,
-      message: "Error interno en el servidor",
+      message: 'Error interno en el servidor'
     });
   }
 };
+
 
 // Todos los métodos deben ser EXPORTADOS (se utilizarán desde la app)
 // el que lo utilizará será "routes"

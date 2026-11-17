@@ -94,13 +94,14 @@ DB_CONNECTION_LIMIT=10
 node src/server.js
 ```
 
-7. Probar la API:
+7. Utilizar Postman o cualquier herramienta similar para realizar las pruebas (TEST) de la API. 
 
-http://localhost:3000/api/productos
+- `http://localhost:3000/api/productos`
+- `http://localhost:3000/api/clientes`
+- `http://localhost:3000/api/proveedores`
 
-http://localhost:3000/api/clientes
-
-http://localhost:3000/api/proveedores
+Puedes descargar Postman desde el siguiente enlace:  
+[Descargar Postman](https://www.postman.com/downloads/)
 
 ## Git y GitHub
 

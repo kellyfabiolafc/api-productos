@@ -6,7 +6,7 @@ const formBuscar = document.getElementById("formBuscar");
 const cuerpoTabla = document.getElementById("cuerpoTabla");
 const mostrarTodos = document.getElementById("mostrarTodos");
 const campoID = document.getElementById("id");
-
+const buscarId = document.getElementById("buscarId")
 //Renderiza los datos obtenidos API REST en el cuerpo de la tabla
 function dibujarTabla(productos) {
   //Si no hay productos registrados en la BD...
@@ -34,7 +34,7 @@ function dibujarTabla(productos) {
         </tr>
     `;
   });
-} //fin deibujarTabla
+} //fin dibujar
 
 //BUSCADOR...
 //Conectamos al BACKEND para buscar el ID
@@ -110,7 +110,7 @@ async function guardarProducto() {
     const editando = campoID.value !== "";
 
     //Construiremos una URL que varía en función de la acción
-    const url = editando ? `${API}/?${campoID.value}` : API;
+    const url = editando ? `${API}/${campoID.value}` : API;
 
     //El método puede variar
     const metodo = editando ? "PUT" : "POST";

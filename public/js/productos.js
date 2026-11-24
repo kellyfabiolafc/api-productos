@@ -139,29 +139,24 @@ async function guardarProducto() {
 }
 
 // Búsqueda a través de API -> BACKEND
-async function buscarProducto(id) {
-  try {
-    const respuesta = await fetch(`${API}/${id}`);
-    const resultado = await respuesta.json();
+formBuscar.addEventListener("submit", function(e){
+    e.preventDefault()
+    buscarProducto(buscarId.value)
+})
 
-    // data es un objeto {} por lo que lo enviamos como arreglo [{}]
-    dibujarTabla([resultado.data]);
-  } catch (e) {
-    console.error(e);
-  }
-}
+// Controlar el evento SUBMIT (envío) del formulario
+formProducto.addEventListener("submit", function(e){
+    e.preventDefault() // Stop
 
-formBuscar.addEventListener("submit", function (e) {
-  e.preventDefault();
-  buscarProducto(buscarId.value);
-});
+    const rpta = confirm('¿Está seguro de registrar el producto?')
+    if (!rpta) { return; }
 
-// Controla el evento SUBMIT (envío) del formulario
-formProducto.addEventListener("submit", function (e) {
-  e.preventDefault(); // Stop
-  const rpt = confirm("¿Está seguro de guardar?");
-  if (!rpt) return;
-  guardarProducto(); // Esta función gestiona el proceso
-});
+    guardarProducto() // Esta función gestiona el proceso
+})
 
-cargarProductos();
+mostrarTodos.addEventListener("click", function(){
+    formBuscar.reset()
+    cargarProductos()
+})
+
+cargarProductos()
